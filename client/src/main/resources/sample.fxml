@@ -4,11 +4,11 @@
       xmlns:fx="http://javafx.com/fxml" alignment="center">
 
     <HBox fx:id="authPanel" managed="true">
-        <TextField fx:id="loginField" HBox.hgrow="ALWAYS" promptText="login"/>
-        <PasswordField fx:id="passwordField" HBox.hgrow="ALWAYS" promptText="password"
+        <TextField fx:id="loginField" HBox.hgrow="ALWAYS" promptText="логин"/>
+        <PasswordField fx:id="passwordField" HBox.hgrow="ALWAYS" promptText="пароль"
                        onAction="#tryToAuth"/>
         <Button text="Войти" onAction="#tryToAuth" minWidth="50"/>
-        <Button text="Новый" onAction="#showRegWindow" minWidth="50"/>
+        <Button text="Регистрация" onAction="#showRegWindow" minWidth="50"/>
     </HBox>
 
     <HBox VBox.vgrow="ALWAYS">

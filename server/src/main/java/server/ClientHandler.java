@@ -42,7 +42,7 @@ public class ClientHandler {
                                 String nick = server.getAuthService().getNickByLoginPass(elements[1], elements[2]);
                                 if (nick != null) {
                                     if (!server.isNickBusy(nick)) {
-                                        sendMsg("/auth_ok " + nick);
+                                        sendMsg("/authok " + nick);
 
                                         this.name = nick;
 
@@ -65,6 +65,7 @@ public class ClientHandler {
                                 String nick = server.getAuthService().addLoginPass(elements[1], elements[2], elements[3]);
                                 if (nick != null) {
                                     sendMsg("/register_ok " + nick);
+                                    sendMsg("/authok " + nick);
 
                                     this.name = nick;
 

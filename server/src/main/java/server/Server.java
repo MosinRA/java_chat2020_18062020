@@ -98,20 +98,20 @@ public class Server {
         }
 
         public void broadcastUserList() {
-            StringBuffer sb = new StringBuffer("/user_list");
+            StringBuffer sb = new StringBuffer("/clientlist ");
 
             ArrayList<String> logins = this.getAuthService().getUsersList();
 
 
             for (ClientHandler client: clients) {
-                sb.append(" " + client.getName() + ":онлайн");
-                // ... по ходу дела исключая их общего списка их ...
-                logins.remove(client.getName());
+                sb.append(" " + client.getName() + "-онлайн");
+
+              logins.remove(client.getName());
             }
 
 
             for (String login: logins) {
-                sb.append(" " + login + ":офлайн");
+                sb.append(" " + login + "-офлайн");
             }
 
             for (ClientHandler client: clients) {

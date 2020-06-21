@@ -3,13 +3,13 @@
 <VBox fx:controller="client.RegController"
       xmlns:fx="http://javafx.com/fxml" alignment="center">
 
-    <Label text="Login:"/>
-    <TextField fx:id="loginField" promptText="login"/>
-    <Label text="Passwors:"/>
-    <PasswordField fx:id="passwordField" promptText="password"/>
+    <Label text="Логин:"/>
+    <TextField fx:id="loginField" promptText="Логин"/>
+    <Label text="Пароль:"/>
+    <PasswordField fx:id="passwordField" promptText="Пароль"/>
 
-    <Label text="Nickname:"/>
-    <TextField fx:id="nickField" promptText="nickname"/>
+    <Label text="Ник:"/>
+    <TextField fx:id="nickField" promptText="Ник"/>
 
     <Button text="Зарегистрироваться" onAction="#clickOk"/>
 

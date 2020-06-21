@@ -62,6 +62,7 @@ public class Controller implements Initializable {
         msgPanel.setVisible(authenticated);
         clientList.setVisible(authenticated);
         clientList.setManaged(authenticated);
+
         if (!authenticated) {
             nick = "";
         }
@@ -74,6 +75,7 @@ public class Controller implements Initializable {
         setAuthenticated(false);
 
         regStage = createRegWindow();
+
 
         Platform.runLater(() -> {
             Stage stage = (Stage) textField.getScene().getWindow();
@@ -88,7 +90,9 @@ public class Controller implements Initializable {
                             e.printStackTrace();
                         }
                     }
+
                 }
+
             });
         });
     }
@@ -116,6 +120,7 @@ public class Controller implements Initializable {
                             setAuthenticated(true);
                             break;
                         }
+
 
                         textArea.appendText(str + "\n");
                     }
@@ -214,6 +219,8 @@ public class Controller implements Initializable {
             RegController regController = fxmlLoader.getController();
             regController.controller = this;
 
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -223,13 +230,15 @@ public class Controller implements Initializable {
 
     public void showRegWindow(ActionEvent actionEvent) {
         regStage.show();
+
     }
 
-    public void tryRegistration(String login, String password ,String nickname){
-        String msg = String.format("/register %s %s %s", login, password ,nickname);
+    public void tryRegistration(String login, String password , String nickname){
+        String msg = String.format("/register %s %s %s", login, password, nickname);
 
         if (socket == null || socket.isClosed()) {
             connect();
+
         }
 
         try {

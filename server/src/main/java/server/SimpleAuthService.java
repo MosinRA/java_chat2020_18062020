@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
+
 
 
 public class SimpleAuthService implements AuthService {
@@ -46,9 +46,10 @@ public class SimpleAuthService implements AuthService {
             }
 
             if (count == 0) {
-                ps = connection.prepareStatement("INSERT INTO login (login, pass) VALUES (?, ?)");
+                ps = connection.prepareStatement("INSERT INTO login (login, pass, nick) VALUES (?, ?, ?)");
                 ps.setString(1, login);
                 ps.setString(2, this.stringToMd5(pass));
+                ps.setString(3, nick);
                 ps.execute();
 
                 return login;
