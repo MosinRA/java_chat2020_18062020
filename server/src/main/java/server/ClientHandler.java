@@ -1,10 +1,8 @@
 package server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
+import java.util.Scanner;
 
 public class ClientHandler {
     private Server server;
@@ -12,9 +10,8 @@ public class ClientHandler {
     private DataInputStream in;
     private DataOutputStream out;
 
-    private String nick;
-    private String login;
     private String name;
+
     public ClientHandler(Server server, Socket socket) {
         try {
             this.socket = socket;
@@ -43,8 +40,16 @@ public class ClientHandler {
                                 if (nick != null) {
                                     if (!server.isNickBusy(nick)) {
                                         sendMsg("/authok " + nick);
-
                                         this.name = nick;
+                                        File file = new File("client/src/main/java/client/log/history_" + getName() + ".txt");
+                                        file.createNewFile();
+                                        try(Scanner sc = new Scanner(new FileInputStream("client/src/main/java/client/log/history_" + getName() + ".txt"))){
+                                            int h;
+                                            while (sc.hasNext()) {
+                                                sendMsg(sc.nextLine());
+                                            }
+
+                                        }
 
                                         setAuthorized(true);
 
@@ -68,7 +73,8 @@ public class ClientHandler {
                                     sendMsg("/authok " + nick);
 
                                     this.name = nick;
-
+                                    File file = new File("client/src/main/java/client/log/history_" + getName() + ".txt");
+                                    file.createNewFile();
                                     setAuthorized(true);
 
                                     break;
@@ -123,7 +129,9 @@ public class ClientHandler {
     public void sendMsg(String msg) {
         try {
             System.out.println("Клиент" + (this.name != null ? " " + this.name : "") + ": " + msg);
-
+            try (FileOutputStream writeHistory = new FileOutputStream("client/src/main/java/client/log/history_" + getName() + ".txt", true);) {
+                writeHistory.write(msg.getBytes());
+            }
             out.writeUTF(msg);
             out.flush();
         } catch (IOException e) {
