@@ -19,9 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -117,6 +115,8 @@ public class Controller implements Initializable {
 
                         if (str.startsWith("/authok ")) {
                             nick = str.split(" ")[1];
+                            File file = new File("client/src/main/java/client/log/history_" + nick + ".txt");
+                            file.createNewFile();
                             setAuthenticated(true);
                             break;
                         }
@@ -146,6 +146,10 @@ public class Controller implements Initializable {
 
                         } else {
                             textArea.appendText(str + "\n");
+                            try (FileOutputStream writeHistory = new FileOutputStream("client/src/main/java/client/log/history_" + nick + ".txt", true);) {
+                                String msgHist = str + "\n" ;
+                                writeHistory.write(msgHist.getBytes());
+                            }
                         }
                     }
                 }catch (RuntimeException e){
@@ -170,8 +174,10 @@ public class Controller implements Initializable {
     public void sendMsg() {
         try {
             out.writeUTF(textField.getText());
+
             textField.clear();
             textField.requestFocus();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

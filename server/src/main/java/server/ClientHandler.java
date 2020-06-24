@@ -41,10 +41,9 @@ public class ClientHandler {
                                     if (!server.isNickBusy(nick)) {
                                         sendMsg("/authok " + nick);
                                         this.name = nick;
-                                        File file = new File("client/src/main/java/client/log/history_" + getName() + ".txt");
-                                        file.createNewFile();
-                                        try(Scanner sc = new Scanner(new FileInputStream("client/src/main/java/client/log/history_" + getName() + ".txt"))){
-                                            int h;
+//                                        File file = new File("client/src/main/java/client/log/history_" + getName() + ".txt");
+//                                        file.createNewFile();
+                                        try (Scanner sc = new Scanner(new FileInputStream("client/src/main/java/client/log/history_" + getName() + ".txt"))) {
                                             while (sc.hasNext()) {
                                                 sendMsg(sc.nextLine());
                                             }
@@ -129,9 +128,10 @@ public class ClientHandler {
     public void sendMsg(String msg) {
         try {
             System.out.println("Клиент" + (this.name != null ? " " + this.name : "") + ": " + msg);
-            try (FileOutputStream writeHistory = new FileOutputStream("client/src/main/java/client/log/history_" + getName() + ".txt", true);) {
-                writeHistory.write(msg.getBytes());
-            }
+//            try (FileOutputStream writeHistory = new FileOutputStream("client/src/main/java/client/log/history_" + getName() + ".txt", true);) {
+//                String msgHist = msg + "\n";
+//                writeHistory.write(msgHist.getBytes());
+//            }
             out.writeUTF(msg);
             out.flush();
         } catch (IOException e) {
