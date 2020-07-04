@@ -6,11 +6,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 
 public class Server {
     private List<ClientHandler> clients;
     private AuthService authService;
+    private static final Logger logger = Logger.getLogger(Server.class.getName());
+
 
     public Server() {
         clients = new Vector<>();
@@ -18,6 +21,7 @@ public class Server {
         //==============//
         if (!SQLHandler.connect()) {
             throw new RuntimeException("Не удалось подключиться к БД");
+
         }
         authService = new DBAuthServise();
         //==============//
@@ -29,11 +33,13 @@ public class Server {
 
         try {
             server = new ServerSocket(PORT);
-            System.out.println("Сервер запущен!");
+            logger.severe("Сервер запущен!");
+//            System.out.println("Сервер запущен!");
 
             while (true) {
                 socket = server.accept();
-                System.out.println("Клиент подключился ");
+                logger.info("Клиент подключился ");
+//                System.out.println("Клиент подключился ");
                 new ClientHandler(this, socket);
             }
 
@@ -51,7 +57,7 @@ public class Server {
 
     public void broadcastMsg(String nick, String msg) {
         //==============//
-        SQLHandler.addMessage(nick,"null",msg,"once upon a time");
+        SQLHandler.addMessage(nick, "null", msg, "once upon a time");
         //==============//
         for (ClientHandler c : clients) {
             c.sendMsg(nick + ": " + msg);
@@ -61,13 +67,14 @@ public class Server {
     public void privateMsg(ClientHandler sender, String receiver, String msg) {
         String message = String.format("[ %s ] private [ %s ] : %s",
                 sender.getNick(), receiver, msg);
+                 logger.fine("приветное сообщение");
 
         for (ClientHandler c : clients) {
             if (c.getNick().equals(receiver)) {
                 c.sendMsg(message);
 
                 //==============//
-                SQLHandler.addMessage(sender.getNick(),receiver,msg,"once upon a time");
+                SQLHandler.addMessage(sender.getNick(), receiver, msg, "once upon a time");
                 //==============//
 
                 if (!sender.getNick().equals(receiver)) {
@@ -95,7 +102,7 @@ public class Server {
         return authService;
     }
 
-    public boolean isLoginAuthorized(String login){
+    public boolean isLoginAuthorized(String login) {
         for (ClientHandler c : clients) {
             if (c.getLogin().equals(login)) {
                 return true;
